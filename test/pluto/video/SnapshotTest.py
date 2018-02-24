@@ -5,6 +5,7 @@ import unittest
 
 import os
 
+from pluto.utils import TempFileUtil
 from pluto.video.snapshot import Snapshot
 
 
@@ -87,10 +88,9 @@ class SnapshotTest(unittest.TestCase):
         self.assertEqual(total, success)
 
     def get_temp_file(self):
-        temp_file = tempfile.NamedTemporaryFile(suffix=".jpg", prefix="snapshot_")
-        temp_file.close()
-        self.temp_files.append(temp_file.name)
-        return temp_file.name
+        temp_file = TempFileUtil.get_temp_file(suffix=".jpg", prefix="snapshot_unit_test_")
+        self.temp_files.append(temp_file)
+        return temp_file
 
     def get_temp_dir(self):
         temp_dir = tempfile.mkdtemp(prefix="snapshot_")

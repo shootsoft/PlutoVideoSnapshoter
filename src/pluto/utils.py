@@ -1,9 +1,12 @@
+import tempfile
 import time
 
 from itertools import groupby
 from collections import namedtuple
 
 import re
+
+from PIL import Image
 
 
 class SizeUtil(object):
@@ -12,11 +15,13 @@ class SizeUtil(object):
         """
         Fit size (width height) into new size
         """
+        Size = namedtuple('Size', 'width height')
+        if width == 0 or height == 0:
+            return Size(0, 0)
         x = max_width * 1.0 / width
         y = max_height * 1.0 / height
         target = x if x < y else y
-        Size = namedtuple('Size', 'width height')
-        return Size(width * target, height * target)
+        return Size(int(width * target), int(height * target))
 
 
 class TimeUtil(object):
@@ -66,3 +71,31 @@ class SrtUtil(object):
                     start, end = start_end.split(' --> ')
                     subs.append(Subtitle(number, TimeUtil.parse_ms(start), TimeUtil.parse_ms(end), content))
         return subs
+
+
+class ImageUtil(object):
+    @staticmethod
+    def vertical_stitch(images, output):
+        if images is None or len(images) < 1:
+            return False
+        ImageFile = namedtuple('ImageFile', 'filename width height')
+        width = max(images, key=lambda x: x.width).width
+        height = sum(map(lambda x: x.down - x.up, images))
+        result = Image.new('RGB', (width, height))
+        y_offset = 0
+        for image in images:
+            img = Image.open(image.image_file)
+            cropped = img.crop((0, image.up, image.width, image.down))
+            result.paste(cropped, (0, y_offset))
+            y_offset += image.down - image.up
+
+        result.save(output)
+        return ImageFile(output, width, height)
+
+
+class TempFileUtil(object):
+    @staticmethod
+    def get_temp_file(prefix='', suffix=''):
+        temp_file = tempfile.NamedTemporaryFile(prefix=prefix, suffix=suffix)
+        temp_file.close()
+        return temp_file.name

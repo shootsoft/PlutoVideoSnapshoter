@@ -1,4 +1,6 @@
-from PyQt5.QtCore import Qt
+import os
+from PyQt5 import uic
+from PyQt5.QtCore import Qt, QSize
 from PyQt5.QtMultimedia import QMediaPlayer
 from PyQt5.QtMultimediaWidgets import QVideoWidget
 from PyQt5.QtWidgets import (QHBoxLayout, QLabel,
@@ -58,6 +60,10 @@ class VideoWindow(QMainWindow):
         self.runTaskButton.setIcon(self.style().standardIcon(QStyle.SP_DialogApplyButton))
         self.runTaskButton.setToolTip("Run snapshots")
 
+        self.imageButton = QPushButton()
+        self.imageButton.setIcon(self.style().standardIcon(QStyle.SP_ArrowRight))
+        self.imageButton.setToolTip("Stitch snapshots")
+
         self.startLabel = QLabel("00:00:00")
         self.endLabel = QLabel("End of video")
 
@@ -82,21 +88,21 @@ class VideoWindow(QMainWindow):
         outputLayout = QGridLayout()
         outputLayout.setContentsMargins(0, 0, 0, 0)
         outputLayout.addWidget(self.outputButton, 0, 0, 1, 1)
-        outputLayout.addWidget(self.outputLineEdit, 0, 1, 1, 5)
+        outputLayout.addWidget(self.outputLineEdit, 0, 1, 1, 6)
 
         outputLayout.addWidget(self.subtitleButton, 1, 0, 1, 1)
-        outputLayout.addWidget(self.subTitleLabel, 1, 1, 1, 5)
+        outputLayout.addWidget(self.subTitleLabel, 1, 1, 1, 6)
 
         outputLayout.addWidget(self.startButton, 2, 0, 1, 1)
         outputLayout.addWidget(self.startLabel, 2, 1, 1, 1)
         outputLayout.addWidget(self.endButton, 2, 2, 1, 1)
         outputLayout.addWidget(self.endLabel, 2, 3, 1, 1)
         outputLayout.addWidget(self.runTaskButton, 2, 4, 1, 1)
+        outputLayout.addWidget(self.imageButton, 2, 6, 1, 1)
 
         layout = QVBoxLayout()
         layout.addWidget(self.videoWidget)
         layout.addLayout(controlLayout)
-        # layout.addLayout(outputLayout)
         layout.addLayout(outputLayout)
         layout.addWidget(self.statusLabel)
 
@@ -122,9 +128,24 @@ class VideoWindow(QMainWindow):
         self.startButton.clicked.connect(ctrl.on_set_start)
         self.endButton.clicked.connect(ctrl.on_set_end)
         self.runTaskButton.clicked.connect(ctrl.on_run_snapshots)
+        self.imageButton.clicked.connect(ctrl.on_stitch_snapshots)
 
         self.positionSlider.sliderMoved.connect(ctrl.on_set_position)
         self.mediaPlayer.stateChanged.connect(ctrl.on_media_state_changed)
         self.mediaPlayer.positionChanged.connect(ctrl.on_position_changed)
         self.mediaPlayer.durationChanged.connect(ctrl.on_duration_changed)
         self.mediaPlayer.error.connect(ctrl.on_handle_error)
+
+
+class ImageStitchingWindow(QMainWindow):
+    def __init__(self):
+        super(ImageStitchingWindow, self).__init__()
+        ui = os.path.join(os.path.dirname(os.path.realpath(__file__)), 'windows', 'image_stitching_window.ui')
+        uic.loadUi(ui, self)
+        self.imageListWidget.setIconSize(QSize(96, 96))
+        self.imageListWidget.resize(self.width() * 0.67, self.imageListWidget.height())
+        self.upImageLabel.setGeometry(0, 0, 0, 0)
+        self.upImageLabel.setStyleSheet("QLabel { background-color : rgba(0,0,0,.8); opacity:0.3;}")
+        self.downImageLabel.setGeometry(0, 0, 0, 0)
+        self.downImageLabel.setStyleSheet("QLabel { background-color : rgba(0,0,0,.8); opacity:0.3;}")
+        #self.previewWidget.setStyleSheet("QWidget { background-color : rgba(0,0,0,.8); opacity:0.3;}")
