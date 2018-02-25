@@ -8,6 +8,7 @@ from PyQt5.QtWidgets import (QApplication, QFileDialog, QStyle, QMessageBox, QLi
 
 from pluto.utils import TimeUtil, ImageUtil, TempFileUtil
 from pluto.video.snapshot import Snapshot
+from pluto.video.ui.ListWidgetItem import ListWidgetItem
 from pluto.video.ui.mvc.models import SnapshotModel, ImageModel
 from pluto.video.ui.mvc.views import ImageStitchingWindow
 from pluto.video.ui.qtutils import QtUtil
@@ -173,7 +174,6 @@ class ImageStitchingController(object):
     def __init__(self, router):
         self.router = router
         self.view = ImageStitchingWindow()
-        self.images = dict()
         self.current_image = None
         self.preview_image_file = None
         self.__bind(self.view)
@@ -221,24 +221,23 @@ class ImageStitchingController(object):
                                       QMessageBox.Yes, QMessageBox.No)
         if result == QMessageBox.Yes:
             for item in items:
-                del self.images[item]
                 index = self.view.imageListWidget.indexFromItem(item)
                 self.view.imageListWidget.takeItem(index.row())
             self.view.imageListWidget.repaint()
             self.view.statusBar().showMessage('Removed %s images.' % len(items))
-            if len(self.images) == 0:
+            if self.view.imageListWidget.count() == 0:
                 self.view.saveButton.setEnabled(False)
 
     def add_image(self, image_file):
         image = ImageModel(image_file)
-        item = QListWidgetItem()
+        item = ListWidgetItem()
         icon = QIcon()
         icon.addFile(image_file)
         item.setTextAlignment(1)
         item.setIcon(icon)
         item.setData(Qt.DisplayRole, str(image))
         item.setData(Qt.StatusTipRole, image_file)
-        self.images[item] = image
+        item.set_storage(image)
         self.view.imageListWidget.addItem(item)
         self.view.saveButton.setEnabled(True)
 
@@ -257,7 +256,7 @@ class ImageStitchingController(object):
             self.view.statusBar().showMessage('')
         else:
             item = items[0]
-            image = self.images[item]
+            image = item.get_storage()
             self.current_image = image
             self.view.upVerticalSlider.setRange(0, image.height)
             self.view.downVerticalSlider.setRange(0, image.height)
@@ -298,7 +297,7 @@ class ImageStitchingController(object):
     def on_up_moved(self, position):
         updated = False
         for item in self.view.imageListWidget.selectedItems():
-            image = self.images[item]
+            image = item.get_storage()
             if position < image.down:
                 image.up = position
                 item.setData(0, str(image))
@@ -313,7 +312,7 @@ class ImageStitchingController(object):
     def on_down_moved(self, position):
         updated = False
         for item in self.view.imageListWidget.selectedItems():
-            image = self.images[item]
+            image = item.get_storage()
             val = image.height - position
             if val > image.up:
                 image.down = val
@@ -339,7 +338,7 @@ class ImageStitchingController(object):
         images = []
         for i in range(self.view.imageListWidget.count()):
             item = self.view.imageListWidget.item(i)
-            images.append(self.images[item])
+            images.append(item.get_storage())
         return images
 
     def on_item_preview_resize(self, event):
@@ -361,6 +360,7 @@ class ImageStitchingController(object):
                 os.remove(temp_file)
             else:
                 self.preview_image_file = None
+                self.view.previewLabel.setPixmap(None)
             self.view.addButton.hide()
             self.view.removeButton.hide()
             self.view.autoDetectButton.hide()
@@ -371,6 +371,5 @@ class ImageStitchingController(object):
 
     def on_output_preview_resize(self, event):
         if self.preview_image_file is not None:
-            self.view.previewLabel.setAlignment(Qt.AlignCenter)
             QtUtil.central(self.view.previewLabel, self.view.previewWidget,
                            self.preview_image_file.width, self.preview_image_file.height)

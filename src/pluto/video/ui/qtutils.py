@@ -21,8 +21,5 @@ class QtUtil(object):
         size = SizeUtil.fit(width, height, parent.width(), parent.height())
         # print width, height, parent.width(), parent.height(), size
         label.resize(size.width, size.height)
-        if size.width > size.height:
-            label.setGeometry(0, (parent.height() - size.height) / 2, size.width, size.height)
-        else:
-            label.setGeometry((parent.width() - size.width) / 2, 0, size.width, size.height)
-
+        label.setGeometry((parent.width() - size.width) / 2, (parent.height() - size.height) / 2,
+                          size.width, size.height)
