@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 import os
 import traceback
 
@@ -90,7 +92,7 @@ class MainController(object):
     def on_set_position(self, position):
         self.view.mediaPlayer.setPosition(position)
 
-    def on_handle_error(self):
+    def on_handle_error(self, error):
         self.view.playButton.setEnabled(False)
         self.view.snapshotButton.setEnabled(False)
         self.view.startButton.setEnabled(False)
@@ -99,6 +101,7 @@ class MainController(object):
         self.view.subtitleButton.setEnabled(False)
         self.view.runTaskButton(False)
         self.view.statusLabel.setText("Error: " + self.view.mediaPlayer.errorString())
+        print(error)
 
     def on_snapshot(self):
         position = self.view.mediaPlayer.position()

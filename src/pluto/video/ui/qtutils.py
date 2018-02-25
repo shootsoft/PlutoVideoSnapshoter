@@ -1,7 +1,8 @@
+# -*- coding: utf-8 -*-
+
 import os
 
 from PyQt5.QtGui import QPixmap
-from PyQt5.QtWidgets import QLabel
 
 from pluto.utils import SizeUtil
 

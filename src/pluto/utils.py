@@ -1,11 +1,15 @@
+# -*- coding: utf-8 -*-
+
 import tempfile
 import time
+import traceback
 
 from itertools import groupby
 from collections import namedtuple
 
 import re
 
+import chardet as chardet
 from PIL import Image
 
 
@@ -58,8 +62,18 @@ class SrtUtil(object):
         :param filename:
         :return:
         """
-        with open(filename, 'r') as f:
-            res = [list(g) for b, g in groupby(f, lambda x: bool(x.strip())) if b]
+        encoding = 'ascii'
+        with open(filename, 'rb') as f:
+            try:
+                encoding = chardet.detect(f.read(10))['encoding']
+            except:
+                traceback.print_exc()
+        res = []
+        with open(filename, 'r', encoding=encoding) as f:
+            try:
+                res = [list(g) for b, g in groupby(f, lambda x: bool(x.strip())) if b]
+            except:
+                traceback.print_exc()
 
             # parse
             Subtitle = namedtuple('Subtitle', 'number start end content')

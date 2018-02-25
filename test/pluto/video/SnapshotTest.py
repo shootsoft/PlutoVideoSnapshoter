@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 import inspect
 import shutil
 import tempfile
@@ -70,7 +72,7 @@ class SnapshotTest(unittest.TestCase):
         dir = self.get_temp_dir()
         total = self.snapshot.estimate(13000, 20000)
         self.assertFalse(self.snapshot.snapshot_range(dir, 13000, 20000, self.show_progress, self.show_complete))
-        print os.listdir(dir)
+        print(os.listdir(dir))
         self.assertEqual(total, len(os.listdir(dir)))
 
     def test_load_snapshot_range_failed(self):
@@ -80,8 +82,8 @@ class SnapshotTest(unittest.TestCase):
         self.assertEqual(0, len(os.listdir(dir)))
 
     def show_progress(self, total, current, position, output_file, output_result):
-        print "total=%s, current=%s, position=%s, output_file=%s, output_result=%s" % (
-            total, current, position, output_file, output_result)
+        print("total=%s, current=%s, position=%s, output_file=%s, output_result=%s" % (
+            total, current, position, output_file, output_result))
         self.assertTrue(output_result)
 
     def show_complete(self, total, success):

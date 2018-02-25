@@ -29,9 +29,14 @@ Pluto Video Snapshoter
 Recommendation Python 3.4+
 
 ```
+sudo pip install -r requirements.txt
+```
+
+If met qt install failed, you may try 
+
+```
 brew install qt5
 brew link qt5 --force
-sudo pip install -r requirements.txt
 ```
 
 [Qt Designer](https://www.qt.io/download) is required for window UI design.
@@ -47,5 +52,9 @@ Building (not fully working yet)
 ```
 python build.py
 ```
+
+## Windows
+
+Extra media codec required, recommend [K-Lite Codec Pack]()http://www.codecguide.com/download_kl.htm)
 
 

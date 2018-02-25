@@ -2,4 +2,6 @@ pyqt5
 opencv-python
 numpy
 Pillow
+chardet
+
 
