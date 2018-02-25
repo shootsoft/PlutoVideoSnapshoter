@@ -26,6 +26,8 @@ Pluto Video Snapshoter
 
 ## Mac
 
+Recommendation Python 3.4+
+
 ```
 brew install qt5
 brew link qt5 --force
@@ -33,3 +35,17 @@ sudo pip install -r requirements.txt
 ```
 
 [Qt Designer](https://www.qt.io/download) is required for window UI design.
+
+Running
+
+```
+python src/app.py
+```
+
+Building (not fully working yet)
+
+```
+python build.py
+```
+
+
