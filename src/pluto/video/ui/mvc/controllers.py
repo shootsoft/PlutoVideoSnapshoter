@@ -146,8 +146,8 @@ class MainController(object):
         if percentage != self.model.task_progress:
             self.model.task_progress = percentage
             self.view.statusLabel.setText("Progress %s%%" % percentage)
-        print "total=%s, current=%s, position=%s, output_file=%s, output_result=%s" % (
-            total, current, position, output_file, output_result)
+        print("total=%s, current=%s, position=%s, output_file=%s, output_result=%s" % (
+            total, current, position, output_file, output_result))
 
     def show_complete(self, total, success):
         self.view.statusLabel.setText("Progress 100%%, all done, %s files expected, %s files saved" % (total, success))
