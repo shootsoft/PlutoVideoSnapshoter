@@ -31,7 +31,7 @@ class MainController(object):
 
     def on_open_file(self):
         file_name, _ = QFileDialog.getOpenFileName(self.view, "Open Video", QDir.homePath(),
-                                                   filter="*.mp4;*.avi;*.mpeg;*.mpg")
+                                                   filter="*.mp4;*.avi;*.mpeg;*.mpg;*.mov")
         if file_name != '':
             self.model = SnapshotModel()
             self.model.filename = file_name
@@ -146,7 +146,7 @@ class MainController(object):
     def show_progress(self, total, current, position, output_file, output_result):
         QApplication.processEvents()
         self.router.notify('snapshot', output_file)
-        percentage = current * 100 / total
+        percentage = int(current * 100 / total)
         if percentage != self.model.task_progress:
             self.model.task_progress = percentage
             self.view.statusLabel.setText("Progress %s%%" % percentage)
@@ -179,6 +179,7 @@ class ImageStitchingController(object):
         self.view = ImageStitchingWindow()
         self.current_image = None
         self.preview_image_file = None
+        self.preview_mode = 0
         self.__bind(self.view)
         self.router.subscribe('snapshot', self)
         self.files = []
@@ -194,6 +195,10 @@ class ImageStitchingController(object):
         view.tabWidget.tabBarClicked.connect(self.on_tab_clicked)
         view.imageWidget.resizeEvent = self.on_item_preview_resize
         view.previewWidget.resizeEvent = self.on_output_preview_resize
+        view.previewSelectedAction.triggered.connect(self.on_preview_selected)
+        view.previewAllAction.triggered.connect(self.on_preview_all)
+        view.saveSelectedAction.triggered.connect(self.on_save_selected)
+        view.saveAllAction.triggered.connect(self.on_save_all)
 
     def show(self):
         self.view.show()
@@ -331,17 +336,22 @@ class ImageStitchingController(object):
         filename, _ = QFileDialog.getSaveFileName(self.view, "Save Image", QDir.homePath(),
                                                   filter="*.jpg")
         if filename:
-            images = self.get_images()
+            images = self.get_images(self.preview_mode)
             ImageUtil.vertical_stitch(images, filename)
             self.view.statusBar().showMessage('Image %s saved.' % filename)
         else:
             self.view.statusBar().showMessage('Save cancelled.')
 
-    def get_images(self):
+    def get_images(self, mode=0):
         images = []
-        for i in range(self.view.imageListWidget.count()):
-            item = self.view.imageListWidget.item(i)
-            images.append(item.get_storage())
+        if mode == 0:
+            for i in range(self.view.imageListWidget.count()):
+                item = self.view.imageListWidget.item(i)
+                images.append(item.get_storage())
+        else:
+            for item in self.view.imageListWidget.selectedItems():
+                images.append(item.get_storage())
+
         return images
 
     def on_item_preview_resize(self, event):
@@ -355,24 +365,45 @@ class ImageStitchingController(object):
         is_preview = index == 1
         self.view.statusBar().showMessage("Preview image." if is_preview else '')
         if is_preview:
-            images = self.get_images()
-            if len(images) > 0:
-                temp_file = TempFileUtil.get_temp_file(prefix="snapshot_preview_", suffix=".jpg")
-                self.preview_image_file = ImageUtil.vertical_stitch(images, temp_file)
-                QtUtil.preview_image(temp_file, self.view.previewLabel, self.view.previewWidget)
-                os.remove(temp_file)
-            else:
-                self.preview_image_file = None
-                self.view.previewLabel.setPixmap(None)
-            self.view.addButton.hide()
-            self.view.removeButton.hide()
-            self.view.autoDetectButton.hide()
+            self.render_stitching_preview()
         else:
             self.view.addButton.show()
             self.view.removeButton.show()
             self.view.autoDetectButton.show()
 
+    def render_stitching_preview(self):
+        images = self.get_images(self.preview_mode)
+        if len(images) > 0:
+            temp_file = TempFileUtil.get_temp_file(prefix="snapshot_preview_", suffix=".jpg")
+            self.preview_image_file = ImageUtil.vertical_stitch(images, temp_file)
+            QtUtil.preview_image(temp_file, self.view.previewLabel, self.view.previewWidget)
+            os.remove(temp_file)
+        else:
+            self.preview_image_file = None
+            self.view.previewLabel.clear()
+        self.view.addButton.hide()
+        self.view.removeButton.hide()
+        self.view.autoDetectButton.hide()
+
     def on_output_preview_resize(self, event):
         if self.preview_image_file is not None:
             QtUtil.central(self.view.previewLabel, self.view.previewWidget,
                            self.preview_image_file.width, self.preview_image_file.height)
+
+    def on_preview_selected(self):
+        self.view.tabWidget.setCurrentIndex(1)
+        self.preview_mode = 1
+        self.on_tab_clicked(1)
+
+    def on_preview_all(self):
+        self.view.tabWidget.setCurrentIndex(1)
+        self.preview_mode = 0
+        self.on_tab_clicked(1)
+
+    def on_save_selected(self):
+        self.preview_mode = 1
+        self.on_save()
+
+    def on_save_all(self):
+        self.preview_mode = 0
+        self.on_save()

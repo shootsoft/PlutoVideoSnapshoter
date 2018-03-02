@@ -7,7 +7,7 @@ from PyQt5.QtMultimedia import QMediaPlayer
 from PyQt5.QtMultimediaWidgets import QVideoWidget
 from PyQt5.QtWidgets import (QHBoxLayout, QLabel,
                              QSizePolicy, QSlider, QStyle, QVBoxLayout,
-                             QGridLayout, QLineEdit)
+                             QGridLayout, QLineEdit, QAction, QMenu)
 from PyQt5.QtWidgets import QMainWindow, QWidget, QPushButton
 
 
@@ -150,4 +150,20 @@ class ImageStitchingWindow(QMainWindow):
         self.upImageLabel.setStyleSheet("QLabel { background-color : rgba(0,0,0,.8); opacity:0.3;}")
         self.downImageLabel.setGeometry(0, 0, 0, 0)
         self.downImageLabel.setStyleSheet("QLabel { background-color : rgba(0,0,0,.8); opacity:0.3;}")
-        #self.previewWidget.setStyleSheet("QWidget { background-color : rgba(0,0,0,.8); opacity:0.3;}")
+        # self.previewWidget.setStyleSheet("QWidget { background-color : rgba(0,0,0,.8); opacity:0.3;}")
+        self.__init_context_menu()
+
+    def __init_context_menu(self):
+        self.contextMenu = QMenu()
+        self.previewSelectedAction = QAction("Preview selected", self)
+        self.previewAllAction = QAction("Preview all", self)
+        self.saveSelectedAction = QAction("Save selected", self)
+        self.saveAllAction = QAction("Save all", self)
+        self.contextMenu.addAction(self.previewSelectedAction)
+        self.contextMenu.addAction(self.previewAllAction)
+        self.contextMenu.addAction(self.saveSelectedAction)
+        self.contextMenu.addAction(self.saveAllAction)
+        self.imageListWidget.customContextMenuRequested.connect(self.on_open_menu)
+
+    def on_open_menu(self, position):
+        self.contextMenu.exec_(self.imageListWidget.mapToGlobal(position))

@@ -102,7 +102,8 @@ class Snapshot(object):
         for sub in self.srt_subs:
             if sub.start >= start and sub.end <= end:
                 current += 1
-                position = (sub.start + start and sub.end) / 2
+                position = int((sub.start + sub.end) / 2)
+                print("current %s start %s end %s mid %s" % (current, sub.start, sub.end, position))
                 output_file = os.path.join(output_folder,
                                            "%s_range_%s.jpg" % (os.path.basename(self.video_file), position))
                 output_result = self.snapshot(position, output_file)
