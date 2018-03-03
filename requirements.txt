@@ -3,5 +3,5 @@ opencv-python
 numpy
 Pillow
 chardet
-
+pyinstaller
 

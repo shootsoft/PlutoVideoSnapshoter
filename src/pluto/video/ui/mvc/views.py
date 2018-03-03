@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
 
 import os
+
+import sys
 from PyQt5 import uic
 from PyQt5.QtCore import Qt, QSize
 from PyQt5.QtMultimedia import QMediaPlayer
@@ -142,15 +144,13 @@ class VideoWindow(QMainWindow):
 class ImageStitchingWindow(QMainWindow):
     def __init__(self):
         super(ImageStitchingWindow, self).__init__()
-        ui = os.path.join(os.path.dirname(os.path.realpath(__file__)), 'windows', 'image_stitching_window.ui')
-        uic.loadUi(ui, self)
+        uic.loadUi(self.resource_path(os.path.join("windows", "image_stitching_window.ui")), self)
         self.imageListWidget.setIconSize(QSize(96, 96))
         self.imageListWidget.resize(self.width() * 0.67, self.imageListWidget.height())
         self.upImageLabel.setGeometry(0, 0, 0, 0)
         self.upImageLabel.setStyleSheet("QLabel { background-color : rgba(0,0,0,.8); opacity:0.3;}")
         self.downImageLabel.setGeometry(0, 0, 0, 0)
         self.downImageLabel.setStyleSheet("QLabel { background-color : rgba(0,0,0,.8); opacity:0.3;}")
-        # self.previewWidget.setStyleSheet("QWidget { background-color : rgba(0,0,0,.8); opacity:0.3;}")
         self.__init_context_menu()
 
     def __init_context_menu(self):
@@ -167,3 +167,14 @@ class ImageStitchingWindow(QMainWindow):
 
     def on_open_menu(self, position):
         self.contextMenu.exec_(self.imageListWidget.mapToGlobal(position))
+
+    # Define function to import external files when using PyInstaller.
+    def resource_path(self, relative_path):
+        """ Get absolute path to resource, works for dev and for PyInstaller """
+        try:
+            # PyInstaller creates a temp folder and stores path in _MEIPASS
+            base_path = sys._MEIPASS
+        except Exception:
+            base_path = os.path.abspath(".")
+
+        return os.path.join(base_path, relative_path)
