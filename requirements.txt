@@ -1,3 +1,4 @@
+sip
 pyqt5
 opencv-python
 numpy

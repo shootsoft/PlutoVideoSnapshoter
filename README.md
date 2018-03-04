@@ -26,7 +26,7 @@ Pluto Video Snapshoter
 
 ## Mac
 
-Recommendation Python 3.4+
+Recommendation Python 3.6
 
 ```
 sudo pip install -r requirements.txt
