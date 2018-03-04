@@ -25,7 +25,7 @@ PlutoVideoSanpshoter Usage
 
 # Advanced
 
-1. Preview/save selected images
+1. Preview/save selected images (right click selected images)
 
 ![Save](images/usage/screenshot_preview_selected.png)
 
