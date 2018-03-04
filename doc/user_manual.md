@@ -2,6 +2,7 @@ PlutoVideoSanpshoter Usage
 ====
 
 1. Launch application
+![Launch](images/usage/screenshot_exe.png)
 1. Open a video
 ![Open a video](images/usage/screenshot_open.png)
 1. (Optional) Select snapshot output folder
@@ -24,7 +25,8 @@ PlutoVideoSanpshoter Usage
 
 # Advanced
 
-Preview selected images
+1. Preview/save selected images
+
 ![Save](images/usage/screenshot_preview_selected.png)
 
 
