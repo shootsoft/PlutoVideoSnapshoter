@@ -12,8 +12,15 @@ from PyQt5.QtWidgets import (QHBoxLayout, QLabel,
                              QGridLayout, QLineEdit, QAction, QMenu)
 from PyQt5.QtWidgets import QMainWindow, QWidget, QPushButton
 
+from pluto.video.ui.qtutils import QtUtil
 
-class VideoWindow(QMainWindow):
+
+class View(QMainWindow):
+    def __init__(self, ctrl=None, parent=None):
+        super(View, self).__init__(parent)
+
+
+class VideoWindow(View):
     def __init__(self, ctrl=None, parent=None):
         super(VideoWindow, self).__init__(parent)
         self.setWindowTitle("Pluto Video Snapshotor")
@@ -141,10 +148,10 @@ class VideoWindow(QMainWindow):
         self.mediaPlayer.error.connect(ctrl.on_handle_error)
 
 
-class ImageStitchingWindow(QMainWindow):
+class ImageStitchingWindow(View):
     def __init__(self):
         super(ImageStitchingWindow, self).__init__()
-        uic.loadUi(self.resource_path(os.path.join("windows", "image_stitching_window.ui")), self)
+        uic.loadUi(QtUtil.resource_path(os.path.join("windows", "image_stitching_window.ui")), self)
         self.imageListWidget.setIconSize(QSize(96, 96))
         self.imageListWidget.resize(self.width() * 0.67, self.imageListWidget.height())
         self.upImageLabel.setGeometry(0, 0, 0, 0)
@@ -167,14 +174,3 @@ class ImageStitchingWindow(QMainWindow):
 
     def on_open_menu(self, position):
         self.contextMenu.exec_(self.imageListWidget.mapToGlobal(position))
-
-    # Define function to import external files when using PyInstaller.
-    def resource_path(self, relative_path):
-        """ Get absolute path to resource, works for dev and for PyInstaller """
-        try:
-            # PyInstaller creates a temp folder and stores path in _MEIPASS
-            base_path = sys._MEIPASS
-        except Exception:
-            base_path = os.path.abspath(".")
-
-        return os.path.join(base_path, relative_path)

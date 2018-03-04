@@ -2,6 +2,7 @@
 
 import os
 
+import sys
 from PyQt5.QtGui import QPixmap
 
 from pluto.utils import SizeUtil
@@ -24,3 +25,14 @@ class QtUtil(object):
         label.resize(size.width, size.height)
         label.setGeometry((parent.width() - size.width) / 2, (parent.height() - size.height) / 2,
                           size.width, size.height)
+
+    @staticmethod
+    def resource_path(relative_path):
+        """ Get absolute path to resource, works for dev and for PyInstaller """
+        try:
+            # PyInstaller creates a temp folder and stores path in _MEIPASS
+            base_path = sys._MEIPASS
+        except Exception:
+            base_path = os.path.abspath(".")
+
+        return os.path.join(base_path, relative_path)

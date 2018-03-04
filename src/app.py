@@ -1,14 +1,20 @@
 # -*- coding: utf-8 -*-
 
 import sys
+
+import os
+from PyQt5 import QtGui
+
 from PyQt5.QtWidgets import QApplication
 
 from pluto.video.ui.mvc.controllers import MainController, ImageStitchingController
 from pluto.video.ui.mvc.routers import Router
 from pluto.video.ui.mvc.views import VideoWindow
+from pluto.video.ui.qtutils import QtUtil
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)
+    app.setWindowIcon(QtGui.QIcon(QtUtil.resource_path(os.path.join('windows', 'pluto.png'))))
     router = Router(app)
     main = MainController(router)
     view = VideoWindow(main)
