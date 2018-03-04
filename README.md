@@ -21,6 +21,7 @@ Pluto Video Snapshoter
 
 ![Snapshot UI](doc/images/snapshot_ui_stitching_preview.png)
 
+See [User Maual](doc/user_manual.md)
 
 # Development
 
