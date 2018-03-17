@@ -8,6 +8,7 @@ from PyQt5.QtGui import QIcon
 from PyQt5.QtMultimedia import QMediaContent, QMediaPlayer
 from PyQt5.QtWidgets import (QApplication, QFileDialog, QStyle, QMessageBox, QListWidgetItem)
 
+from pluto.media.TextDetector import TextDetector
 from pluto.utils import TimeUtil, ImageUtil, TempFileUtil
 from pluto.video.snapshot import Snapshot
 from pluto.video.ui.ListWidgetItem import ListWidgetItem
@@ -183,10 +184,12 @@ class ImageStitchingController(object):
         self.__bind(self.view)
         self.router.subscribe('snapshot', self)
         self.files = []
+        self.text_detector = TextDetector()
 
     def __bind(self, view):
         view.goBackButton.clicked.connect(self.on_go_back)
         view.addButton.clicked.connect(self.on_add_item)
+        view.autoDetectButton.clicked.connect(self.on_auto_detect)
         view.removeButton.clicked.connect(self.on_remove_item)
         view.saveButton.clicked.connect(self.on_save)
         view.imageListWidget.itemSelectionChanged.connect(self.on_item_selected)
@@ -235,6 +238,7 @@ class ImageStitchingController(object):
             self.view.statusBar().showMessage('Removed %s images.' % len(items))
             if self.view.imageListWidget.count() == 0:
                 self.view.saveButton.setEnabled(False)
+                self.view.autoDetectButton.setEnabled(False)
 
     def add_image(self, image_file):
         image = ImageModel(image_file)
@@ -247,7 +251,9 @@ class ImageStitchingController(object):
         item.setData(Qt.StatusTipRole, image_file)
         item.set_storage(image)
         self.view.imageListWidget.addItem(item)
-        self.view.saveButton.setEnabled(True)
+        if not self.view.saveButton.isEnabled():
+            self.view.saveButton.setEnabled(True)
+            self.view.autoDetectButton.setEnabled(True)
 
     def on_item_selected(self):
         items = self.view.imageListWidget.selectedItems()
@@ -407,3 +413,37 @@ class ImageStitchingController(object):
     def on_save_all(self):
         self.preview_mode = 0
         self.on_save()
+
+    def on_auto_detect(self):
+        message = "Auto detect subtitle positions for "
+        items = []
+        skip_first = False
+        if len(self.view.imageListWidget.selectedItems()) > 0:
+            message += "selected images?"
+            items = self.view.imageListWidget.selectedItems()
+        else:
+            message += "all images (except the head image)?"
+            for i in range(self.view.imageListWidget.count()):
+                items.append(self.view.imageListWidget.item(i))
+            skip_first = True
+        reply = QMessageBox.question(self.view, 'Auto detect', message, QMessageBox.Yes, QMessageBox.No)
+        if reply == QMessageBox.Yes:
+            self.view.setEnabled(False)
+            self.do_auto_detect(items, skip_first)
+            self.view.setEnabled(True)
+
+    def do_auto_detect(self, items, skip_first=False):
+        start = 1 if skip_first else 0
+        for i in range(start, len(items)):
+            img = items[i].get_storage()
+            img.up, img.down = self.text_detector.detect_subtitle_range(img.image_file)
+            #items[i].setData(0, str(img))
+            self.refresh_item(items[i])
+
+    def refresh_item(self, item):
+        img = item.get_storage()
+        item.setData(0, str(img))
+        # thumbnail = ImageUtil.get_thumbnail(img)
+        # item.setIcon(QIcon(thumbnail))
+        # Remove temp file
+        # os.remove(thumbnail)
