@@ -62,3 +62,8 @@ python build.py
 Extra media codec required, recommend [K-Lite Codec Pack]()http://www.codecguide.com/download_kl.htm)
 
 
+## Tests
+
+```bash
+nosetests
+```
