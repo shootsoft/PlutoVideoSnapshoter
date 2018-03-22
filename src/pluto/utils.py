@@ -106,6 +106,16 @@ class ImageUtil(object):
         result.save(output)
         return ImageFile(output, width, height)
 
+    @staticmethod
+    def get_thumbnail(image):
+        result = Image.new('RGB', (image.width, image.down - image.up))
+        temp_image = Image.open(image.image_file)
+        cropped = temp_image.crop((0, image.up, image.width, image.down))
+        result.paste(cropped, (0, 0))
+        temp_file = TempFileUtil.get_temp_file(prefix="thumbnail_", suffix=".jpg")
+        result.save(temp_file)
+        return temp_file
+
 
 class TempFileUtil(object):
     @staticmethod

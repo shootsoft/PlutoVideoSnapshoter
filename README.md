@@ -5,6 +5,7 @@ Pluto Video Snapshoter
 
 - Automatically take snapshots for each slice of subtitles for a video with a given time range.
 - Stitch snapshots into one image
+- Automatically detect subtitle positions
 
 # Usage
 
@@ -19,7 +20,9 @@ Pluto Video Snapshoter
 
 ![Snapshot UI](doc/images/snapshot_ui_stitching.png)
 
-![Snapshot UI](doc/images/snapshot_ui_stitching_preview.png)
+![Snapshot UI](doc/images/auto_detection/subtitle_auto_detection.png)
+
+![Snapshot UI](doc/images/auto_detection/preview.png)
 
 See [User Maual](doc/user_manual.md)
 
@@ -59,3 +62,8 @@ python build.py
 Extra media codec required, recommend [K-Lite Codec Pack]()http://www.codecguide.com/download_kl.htm)
 
 
+## Tests
+
+```bash
+nosetests
+```

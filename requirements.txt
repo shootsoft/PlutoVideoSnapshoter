@@ -5,4 +5,5 @@ numpy
 Pillow
 chardet
 pyinstaller
-
+py2app
+nose

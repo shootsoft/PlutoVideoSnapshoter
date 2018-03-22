@@ -29,4 +29,6 @@ PlutoVideoSanpshoter Usage
 
 ![Save](images/usage/screenshot_preview_selected.png)
 
+1. Automatically detect subtitle positions
 
+![Save](images/auto_detection/subtitle_auto_detection.png)
