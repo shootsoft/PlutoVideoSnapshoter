@@ -23,13 +23,13 @@ class SnapshotModel(object):
         if key == 'filename' and value != "":
             self.folder, self.file = os.path.split(value)
             if self.__dict__['output'] == "":
-                self.__dict__['output'] = self.folder
+                self.__dict__['output'] = os.path.join(self.folder, "clips")
 
 
 class ImageModel(object):
     def __init__(self, image_file=None):
         self.image_file = ""
-        #self.image = None
+        # self.image = None
         self.up = 0
         self.down = -1
         self.width = 0

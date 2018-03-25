@@ -19,11 +19,10 @@ class QtUtil(object):
         QtUtil.central(label, parent, image_preview.width(), image_preview.height())
 
     @staticmethod
-    def central(label, parent, width, height):
-        size = SizeUtil.fit(width, height, parent.width(), parent.height())
-        # print width, height, parent.width(), parent.height(), size
-        label.resize(size.width, size.height)
-        label.setGeometry((parent.width() - size.width) / 2, (parent.height() - size.height) / 2,
+    def central(child, parent, width, height, offset_x=0, offset_y=0):
+        size = SizeUtil.fit(width - offset_x * 2, height - offset_y * 2, parent.width(), parent.height())
+        child.setGeometry((parent.width() - size.width) / 2 + offset_x,
+                          (parent.height() - size.height) / 2 + offset_y,
                           size.width, size.height)
 
     @staticmethod

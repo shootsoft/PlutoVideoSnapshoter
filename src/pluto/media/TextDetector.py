@@ -41,20 +41,21 @@ class TextDetector(object):
     def detect_subtitle_range(self, filename):
         image = cv2.imread(filename)
         height, width, channels = image.shape
-        y_up = height * 0.6
+        y_up = 0
         y_down = height
         rectangles = self.detect_text_rect(image)
-        for rect in rectangles:
-            if rect.y < y_up:
-                continue
-            if rect.y > y_up:
-                y_up = rect.y
-                break
-        last_rect = rectangles[len(rectangles) - 1]
-        max_down = last_rect.y + last_rect.height + max(last_rect.height * 0.3, 30)
-        y_down = max_down if max_down < height else last_rect.y + last_rect.height
-        # if y_down < max_down:
-        #    y_down = max_down
+        if len(rectangles) > 0:
+            y_up = height * 0.6
+            for rect in rectangles:
+                if rect.y < y_up:
+                    continue
+                if rect.y > y_up:
+                    y_up = rect.y
+                    break
+            last_rect = rectangles[len(rectangles) - 1]
+            max_down = last_rect.y + last_rect.height + max(last_rect.height * 0.3, 30)
+            y_down = max_down if max_down < height else last_rect.y + last_rect.height
+
         return int(y_up), int(y_down)
 
 

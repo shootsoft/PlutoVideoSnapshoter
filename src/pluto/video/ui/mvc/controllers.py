@@ -216,7 +216,7 @@ class ImageStitchingController(object):
 
     def on_go_back(self):
         self.view.hide()
-        self.router.go('main')
+        self.router.go('player')
 
     def on_add_item(self):
         file_names, _ = QFileDialog.getOpenFileNames(self.view, "Open Images", QDir.homePath(),
@@ -241,19 +241,22 @@ class ImageStitchingController(object):
                 self.view.autoDetectButton.setEnabled(False)
 
     def add_image(self, image_file):
-        image = ImageModel(image_file)
-        item = ListWidgetItem()
-        icon = QIcon()
-        icon.addFile(image_file)
-        item.setTextAlignment(1)
-        item.setIcon(icon)
-        item.setData(Qt.DisplayRole, str(image))
-        item.setData(Qt.StatusTipRole, image_file)
-        item.set_storage(image)
-        self.view.imageListWidget.addItem(item)
-        if not self.view.saveButton.isEnabled():
-            self.view.saveButton.setEnabled(True)
-            self.view.autoDetectButton.setEnabled(True)
+        try:
+            image = ImageModel(image_file)
+            item = ListWidgetItem()
+            icon = QIcon()
+            icon.addFile(image_file)
+            item.setTextAlignment(1)
+            item.setIcon(icon)
+            item.setData(Qt.DisplayRole, str(image))
+            item.setData(Qt.StatusTipRole, image_file)
+            item.set_storage(image)
+            self.view.imageListWidget.addItem(item)
+            if not self.view.saveButton.isEnabled():
+                self.view.saveButton.setEnabled(True)
+                self.view.autoDetectButton.setEnabled(True)
+        except:
+            traceback.print_exc()
 
     def on_item_selected(self):
         items = self.view.imageListWidget.selectedItems()

@@ -10,6 +10,7 @@ from PyQt5.QtWidgets import QApplication
 from pluto.video.ui.mvc.controllers import MainController, ImageStitchingController
 from pluto.video.ui.mvc.routers import Router
 from pluto.video.ui.mvc.views import VideoWindow
+from pluto.video.ui.player.controller import PlayerController
 from pluto.video.ui.qtutils import QtUtil
 
 if __name__ == '__main__':
@@ -20,6 +21,7 @@ if __name__ == '__main__':
     view = VideoWindow(main)
     view.resize(800, 600)
     router.add_ctrl('main', main)
+    router.add_ctrl('player', PlayerController(router))
     router.add_ctrl('image', ImageStitchingController(router))
-    router.go('main')
+    router.go('player')
     sys.exit(app.exec_())
