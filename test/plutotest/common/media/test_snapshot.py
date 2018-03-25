@@ -7,15 +7,15 @@ import unittest
 
 import os
 
-from pluto.utils import TempFileUtil
-from pluto.video.snapshot import Snapshot
+from pluto.common.utils import TempFileUtil
+from pluto.common.media.snapshot import Snapshot
 
 
 class SnapshotTest(unittest.TestCase):
     def setUp(self):
         self.snapshot = Snapshot()
         self.resource = os.path.realpath(
-            os.path.join(os.path.dirname(inspect.getfile(inspect.currentframe())), '../../files'))
+            os.path.join(os.path.dirname(inspect.getfile(inspect.currentframe())), '../../../files'))
         self.video_file = self.resource + "/video/A Message from President-Elect Donald J- Trump.mp4"
         self.temp_files = []
 
@@ -65,7 +65,8 @@ class SnapshotTest(unittest.TestCase):
 
     def test_load_snapshot_failed(self):
         self.snapshot.load_video(self.video_file)
-        self.assertFalse(self.snapshot.snapshot(13000, "/root/file.jpg"))
+        with self.assertRaises(Exception) as context:
+            self.snapshot.snapshot(13000, "/root/file.jpg")
 
     def test_load_snapshot_range(self):
         self.snapshot.load_video(self.video_file)

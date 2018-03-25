@@ -13,3 +13,6 @@ class ListWidgetItem(QListWidgetItem):
 
     def get_storage(self):
         return self.storage
+
+    def refresh_ui(self):
+        self.setData(0, str(self.storage))

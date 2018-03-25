@@ -1,20 +1,15 @@
-import os
-from PyQt5 import uic
-from PyQt5.QtCore import QUrl
-from PyQt5.QtMultimedia import QMediaPlayer, QMediaContent
-from PyQt5.QtMultimediaWidgets import QVideoWidget
-from PyQt5.QtWidgets import QWidget, QLabel
+# -*- coding: utf-8 -*-
 
-from pluto.utils import TimeUtil
-from pluto.video.ui.mvc.views import View
-from pluto.video.ui.qtutils import QtUtil
+from PyQt5.QtMultimedia import QMediaPlayer
+from PyQt5.QtMultimediaWidgets import QVideoWidget
+from PyQt5.QtWidgets import QLabel
+
+from pluto.ui.qt.mvc.views import View
 
 
 class PlayerWindow(View):
     def __init__(self):
-        super(PlayerWindow, self).__init__()
-        uic.loadUi(QtUtil.resource_path(os.path.join("windows", "video_player_window.ui")), self)
-        self.setWindowTitle("Pluto Video Snapshotor")
+        super(PlayerWindow, self).__init__(ui_file="video_player_window.ui")
         self.mediaPlayer = QMediaPlayer(None, QMediaPlayer.VideoSurface)
         self.videoWidget = QVideoWidget(self.videoBackgroundWidget)
         self.mediaPlayer.setVideoOutput(self.videoWidget)

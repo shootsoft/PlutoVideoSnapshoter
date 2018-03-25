@@ -4,7 +4,7 @@ import unittest
 
 import os
 
-from pluto.utils import TempFileUtil
+from pluto.common.utils import TempFileUtil
 
 
 class TempFileTestCase(unittest.TestCase):

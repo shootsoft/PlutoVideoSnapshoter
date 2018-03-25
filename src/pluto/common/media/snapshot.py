@@ -3,7 +3,7 @@ import traceback
 import cv2
 import os
 
-from pluto.utils import SrtUtil
+from pluto.common.utils import SrtUtil
 
 
 class Snapshot(object):
@@ -84,11 +84,16 @@ class Snapshot(object):
         self.video_capture.set(cv2.CAP_PROP_POS_FRAMES, frame_pos)
         success, image = self.video_capture.read()
         if success:
-            dir_path = os.path.dirname(os.path.realpath(output_file))
-            if not os.path.exists(dir_path):
-                os.mkdir(dir_path)
-            result = cv2.imwrite(output_file, image)
-            return result
+            try:
+                dir_path = os.path.dirname(os.path.realpath(output_file))
+                if not os.path.exists(dir_path):
+                    os.mkdir(dir_path)
+                result = cv2.imwrite(output_file, image)
+                return result
+            except:
+                traceback.print_exc()
+                raise Exception('Snapshot position %s (frame %s) failed %s' % (position, frame_pos, output_file))
+
         else:
             raise Exception('Snapshot position %s (frame %s) failed %s' % (position, frame_pos, output_file))
 

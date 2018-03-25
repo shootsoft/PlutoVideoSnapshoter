@@ -5,7 +5,7 @@ import os
 import sys
 from PyQt5.QtGui import QPixmap
 
-from pluto.utils import SizeUtil
+from pluto.common.utils import SizeUtil
 
 
 class QtUtil(object):

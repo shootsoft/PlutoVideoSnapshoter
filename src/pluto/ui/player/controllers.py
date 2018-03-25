@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 import os
 import traceback
 
@@ -5,18 +7,19 @@ from PyQt5.QtCore import QUrl, QDir
 from PyQt5.QtMultimedia import QMediaContent, QMediaPlayer
 from PyQt5.QtWidgets import QFileDialog, QMessageBox, QApplication
 
-from pluto.utils import TimeUtil
-from pluto.video.snapshot import Snapshot
-from pluto.video.ui.mvc.models import SnapshotModel
-from pluto.video.ui.player.view import PlayerWindow
-from pluto.video.ui.qtutils import QtUtil
+from pluto.common.utils import TimeUtil
+from pluto.common.media.snapshot import Snapshot
+from pluto.ui.player.models import SnapshotModel
+from pluto.ui.player.views import PlayerWindow
+
+from pluto.ui.qt.mvc.controllers import Controller
+from pluto.ui.qt.qtutils import QtUtil
 
 
-class PlayerController(object):
+class PlayerController(Controller):
     def __init__(self, router):
-        self.router = router
+        super(PlayerController, self).__init__(router, PlayerWindow())
         self.model = SnapshotModel()
-        self.view = PlayerWindow()
         self.snapshot = Snapshot()
         self.__bind(self.view)
 
@@ -39,9 +42,6 @@ class PlayerController(object):
         self.view.mediaPositionSlider.sliderMoved.connect(self.on_set_position)
 
         self.view.videoBackgroundWidget.resizeEvent = self.on_video_resize
-
-    def show(self):
-        self.view.show()
 
     def on_open(self):
         file_name, _ = QFileDialog.getOpenFileName(self.view, "Open Video", QDir.homePath(),
@@ -86,13 +86,12 @@ class PlayerController(object):
                                                    filter="*.srt")
         if file_name != '':
             self.snapshot.load_srt(file_name)
-            self.view.subTitleLabel.setText(file_name)
+            self.view.subtitleLineEdit.setText(file_name)
             self.model.subtitle = file_name
-            self.view.runTaskButton.setEnabled(True)
+            self.view.autoSnapshotButton.setEnabled(True)
 
     def on_stitch_snapshots(self):
-        self.view.hide()
-        self.router.go('image')
+        self.go('image')
 
     def set_video(self, file_name, width, height):
         self.view.mediaPlayer.setMedia(QMediaContent(QUrl.fromLocalFile(file_name)))
@@ -102,7 +101,7 @@ class PlayerController(object):
         QtUtil.central(self.view.videoWidget, self.view.videoBackgroundWidget,
                        self.snapshot.width, self.snapshot.height, 2, 2)
         if state == 0:
-            # TODO find a method to update view instead of these tricks
+            # TODO: find a method to update view instead of these tricks
             self.view.videoWidget.hide()
             self.model.isPlaying = False
             self.view.playButton.hide()
@@ -117,6 +116,7 @@ class PlayerController(object):
                        self.snapshot.width, self.snapshot.height)
 
     def on_position_changed(self, position):
+        # TODO: find a method to update view instead of these tricks
         QtUtil.central(self.view.videoWidget, self.view.videoBackgroundWidget,
                        self.snapshot.width, self.snapshot.height)
         self.view.mediaPositionSlider.setValue(position)
