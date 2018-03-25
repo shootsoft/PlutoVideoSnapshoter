@@ -59,7 +59,7 @@ python build.py
 
 ## Windows
 
-Extra media codec required, recommend [K-Lite Codec Pack]()http://www.codecguide.com/download_kl.htm)
+Extra media codec required, recommend [K-Lite Codec Pack](http://www.codecguide.com/download_kl.htm)
 
 
 ## Tests
