@@ -15,7 +15,7 @@ DATA_FILES = [
 OPTIONS = {
     'argv_emulation': True,
     'iconfile': 'res/pluto.icns',
-    'plist': {'CFBundleShortVersionString': '1.1', },
+    'plist': {'CFBundleShortVersionString': '1.4', },
     'includes': ['sip',
                  'opencv-python',
                  'numpy',
@@ -27,11 +27,14 @@ OPTIONS = {
                  'PyQt5.QtMultimedia',
                  'PyQt5.QtMultimediaWidgets',
                  'PyQt5.pyqtconfig',
+                 'PyQt5._qt',
                  'pluto.*',
-                 'pluto.media.*',
-                 'pluto.video.*',
-                 'pluto.video.ui.*',
-                 'pluto.video.ui.mvc.*'
+                 'pluto.common.media.*',
+                 'pluto.ui.*',
+                 'pluto.ui.qt.*',
+                 'pluto.ui.qt.mvc.*',
+                 'pluto.ui.player.*',
+                 'pluto.ui.stitcher.*'
                  ],
     'bdist_base': os.path.join(os.getcwd(), 'build', 'build'),
     'dist_dir': os.path.join(os.getcwd(), 'build', 'dist'),
