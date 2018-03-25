@@ -2,7 +2,6 @@
 
 import inspect
 import shutil
-import tempfile
 import unittest
 
 import os
@@ -10,7 +9,7 @@ from collections import namedtuple
 
 from PIL import Image
 
-from pluto.utils import SizeUtil, TimeUtil, SrtUtil, ImageUtil, TempFileUtil
+from pluto.common.utils import SizeUtil, TimeUtil, SrtUtil, ImageUtil, TempFileUtil
 
 
 class SizeUtilTest(unittest.TestCase):
@@ -56,7 +55,7 @@ class TimeUtilTest(unittest.TestCase):
 class SrtUtilTest(unittest.TestCase):
     def test_parse_srt(self):
         subs = SrtUtil.parse_srt(os.path.realpath(
-            os.path.join(os.path.dirname(inspect.getfile(inspect.currentframe())), '../files/test.srt')))
+            os.path.join(os.path.dirname(inspect.getfile(inspect.currentframe())), '../../files/test.srt')))
         self.assertEqual(3, len(subs))
         self.assertEqual('the transcript for the whole video is unleashed.', subs[1].content[0])
 
@@ -74,7 +73,7 @@ class ImageUtilTest(unittest.TestCase):
 
     def test_concat(self):
         base_dir = os.path.realpath(
-            os.path.join(os.path.dirname(inspect.getfile(inspect.currentframe())), '../files'))
+            os.path.join(os.path.dirname(inspect.getfile(inspect.currentframe())), '../../files'))
         Img = namedtuple('Img', 'image_file width height up down')
         images = [
             Img(os.path.join(base_dir, 'images/1.jpg'), 640, 360, 268, 320),

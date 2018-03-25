@@ -1,7 +1,7 @@
 import os
 import cv2
 
-from pluto.media.TextDetector import TextDetector, Rect
+from pluto.common.media.TextDetector import TextDetector, Rect
 
 from test.plutotest.TempFileTestCase import TempFileTestCase
 

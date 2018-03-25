@@ -1,7 +1,9 @@
+import traceback
+
 import cv2
 import os
 
-from pluto.utils import SrtUtil
+from pluto.common.utils import SrtUtil
 
 
 class Snapshot(object):
@@ -10,6 +12,8 @@ class Snapshot(object):
         self.video_capture = None
         self.srt_file = ""
         self.srt_subs = []
+        self.width = 0
+        self.height = 0;
 
     def __exit__(self, exc_type, exc_val, exc_tb):
         self.__initialise()
@@ -29,6 +33,12 @@ class Snapshot(object):
         srt_file = self.detect_srt(video_file)
         if srt_file:
             self.load_srt(srt_file)
+
+        if self.video_capture.isOpened():
+            self.width = self.video_capture.get(cv2.CAP_PROP_FRAME_WIDTH)
+            self.height = self.video_capture.get(cv2.CAP_PROP_FRAME_HEIGHT)
+
+        return self.video_capture.isOpened()
 
     @staticmethod
     def detect_srt(video_file):
@@ -74,8 +84,16 @@ class Snapshot(object):
         self.video_capture.set(cv2.CAP_PROP_POS_FRAMES, frame_pos)
         success, image = self.video_capture.read()
         if success:
-            result = cv2.imwrite(output_file, image)
-            return result
+            try:
+                dir_path = os.path.dirname(os.path.realpath(output_file))
+                if not os.path.exists(dir_path):
+                    os.mkdir(dir_path)
+                result = cv2.imwrite(output_file, image)
+                return result
+            except:
+                traceback.print_exc()
+                raise Exception('Snapshot position %s (frame %s) failed %s' % (position, frame_pos, output_file))
+
         else:
             raise Exception('Snapshot position %s (frame %s) failed %s' % (position, frame_pos, output_file))
 
@@ -109,6 +127,9 @@ class Snapshot(object):
                 output_result = self.snapshot(position, output_file)
                 success += 1 if output_result else 0
                 if callback_progress:
-                    callback_progress(total, current, position, output_file, output_result)
+                    try:
+                        callback_progress(total, current, position, output_file, output_result)
+                    except:
+                        traceback.print_exc()
         if callback_complete:
             callback_complete(total, success)

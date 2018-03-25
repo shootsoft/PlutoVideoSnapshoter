@@ -6,12 +6,12 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>792</width>
-    <height>533</height>
+    <width>839</width>
+    <height>559</height>
    </rect>
   </property>
   <property name="windowTitle">
-   <string>MainWindow</string>
+   <string>Pluto Video Snapshoter</string>
   </property>
   <widget class="QWidget" name="centralwidget">
    <layout class="QVBoxLayout" name="verticalLayout_2">
@@ -44,6 +44,12 @@
         <layout class="QHBoxLayout" name="horizontalLayout">
          <item>
           <widget class="QPushButton" name="openButton">
+           <property name="minimumSize">
+            <size>
+             <width>100</width>
+             <height>0</height>
+            </size>
+           </property>
            <property name="text">
             <string>Open</string>
            </property>
@@ -53,6 +59,18 @@
           <widget class="QPushButton" name="playButton">
            <property name="enabled">
             <bool>false</bool>
+           </property>
+           <property name="minimumSize">
+            <size>
+             <width>100</width>
+             <height>0</height>
+            </size>
+           </property>
+           <property name="maximumSize">
+            <size>
+             <width>100</width>
+             <height>16777215</height>
+            </size>
            </property>
            <property name="text">
             <string>Play</string>
@@ -70,7 +88,7 @@
           </widget>
          </item>
          <item>
-          <widget class="QSlider" name="progressSlider">
+          <widget class="QSlider" name="mediaPositionSlider">
            <property name="orientation">
             <enum>Qt::Horizontal</enum>
            </property>
@@ -97,9 +115,12 @@
           </widget>
          </item>
          <item>
-          <widget class="QLineEdit" name="outputPathEdit">
+          <widget class="QLineEdit" name="outputLineEdit">
            <property name="enabled">
-            <bool>false</bool>
+            <bool>true</bool>
+           </property>
+           <property name="readOnly">
+            <bool>true</bool>
            </property>
           </widget>
          </item>
@@ -134,9 +155,12 @@
           </widget>
          </item>
          <item>
-          <widget class="QLineEdit" name="subtitlePathEdit">
+          <widget class="QLineEdit" name="subtitleLineEdit">
            <property name="enabled">
-            <bool>false</bool>
+            <bool>true</bool>
+           </property>
+           <property name="readOnly">
+            <bool>true</bool>
            </property>
           </widget>
          </item>
@@ -155,9 +179,15 @@
        <item>
         <layout class="QHBoxLayout" name="horizontalLayout_4">
          <item>
-          <widget class="QPushButton" name="pushButton_6">
+          <widget class="QPushButton" name="startButton">
            <property name="enabled">
             <bool>false</bool>
+           </property>
+           <property name="minimumSize">
+            <size>
+             <width>100</width>
+             <height>0</height>
+            </size>
            </property>
            <property name="text">
             <string>Set Start</string>
@@ -168,13 +198,13 @@
           <widget class="QLabel" name="startLabel">
            <property name="minimumSize">
             <size>
-             <width>100</width>
+             <width>90</width>
              <height>0</height>
             </size>
            </property>
            <property name="maximumSize">
             <size>
-             <width>100</width>
+             <width>90</width>
              <height>16777215</height>
             </size>
            </property>
@@ -184,9 +214,15 @@
           </widget>
          </item>
          <item>
-          <widget class="QPushButton" name="pushButton_7">
+          <widget class="QPushButton" name="endButton">
            <property name="enabled">
             <bool>false</bool>
+           </property>
+           <property name="minimumSize">
+            <size>
+             <width>100</width>
+             <height>0</height>
+            </size>
            </property>
            <property name="text">
             <string>Set End</string>
@@ -197,13 +233,13 @@
           <widget class="QLabel" name="endLabel">
            <property name="minimumSize">
             <size>
-             <width>100</width>
+             <width>90</width>
              <height>0</height>
             </size>
            </property>
            <property name="maximumSize">
             <size>
-             <width>100</width>
+             <width>90</width>
              <height>16777215</height>
             </size>
            </property>
@@ -254,12 +290,19 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>792</width>
+     <width>839</width>
      <height>22</height>
     </rect>
    </property>
   </widget>
-  <widget class="QStatusBar" name="statusbar"/>
+  <widget class="QStatusBar" name="statusbar">
+   <property name="maximumSize">
+    <size>
+     <width>4096</width>
+     <height>16777215</height>
+    </size>
+   </property>
+  </widget>
  </widget>
  <resources/>
  <connections/>
