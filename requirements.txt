@@ -1,9 +1,11 @@
 sip
 pyqt5
-opencv-python
+opencv-python=3.3.0.9
 numpy
 Pillow
 chardet
+
+# Development
 pyinstaller
-py2app
 nose
+coverage

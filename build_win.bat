@@ -7,7 +7,7 @@ pyinstaller -F -w --icon=res/pluto.ico ^
 
 goto comment
 ...skip this...
-REM Multiple files
+REM Multiple files, for debugging
 pyinstaller -D -w --icon=res/pluto.ico ^
           --add-data "src\windows;windows" ^
           --add-data "venv/v36/Lib/site-packages/cv2/opencv_ffmpeg340.dll;./"  ^
@@ -15,6 +15,4 @@ pyinstaller -D -w --icon=res/pluto.ico ^
           --version-file=file_version_info.txt "src\app.py" ^
           -n "PlutoVideoSnapshoter"
 
-REM Mac
-REM pyinstaller --clean -D -w --icon=res/pluto.icns --add-data "src/windows:windows"  "src/app.py" -n "PlutoVideoSnapshoter"
 :comment
