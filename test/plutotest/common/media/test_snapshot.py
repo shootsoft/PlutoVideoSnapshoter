@@ -66,7 +66,7 @@ class SnapshotTest(unittest.TestCase):
     def test_load_snapshot_failed(self):
         self.snapshot.load_video(self.video_file)
         with self.assertRaises(Exception) as context:
-            self.snapshot.snapshot(13000, "/root/file.jpg")
+            self.snapshot.snapshot(13000, "test")
 
     def test_load_snapshot_range(self):
         self.snapshot.load_video(self.video_file)
