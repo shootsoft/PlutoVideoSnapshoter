@@ -1,5 +1,7 @@
 Pluto Video Snapshoter
-====
+======================
+
+[![Build Status](https://travis-ci.org/shootsoft/PlutoVideoSnapshoter.svg?branch=master)](https://travis-ci.org/shootsoft/PlutoVideoSnapshoter)
 
 # Features
 
