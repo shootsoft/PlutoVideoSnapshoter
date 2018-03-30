@@ -1,7 +1,7 @@
 Pluto Video Snapshoter
 ======================
 
-[![Build Status](https://travis-ci.org/shootsoft/PlutoVideoSnapshoter.svg?branch=master)](https://travis-ci.org/shootsoft/PlutoVideoSnapshoter)
+[![Build Status](https://travis-ci.org/shootsoft/PlutoVideoSnapshoter.svg?branch=master)](https://travis-ci.org/shootsoft/PlutoVideoSnapshoter) [![Coverage Status](https://coveralls.io/repos/github/shootsoft/PlutoVideoSnapshoter/badge.svg)](https://coveralls.io/github/shootsoft/PlutoVideoSnapshoter)
 
 # Features
 
