@@ -13,7 +13,9 @@ class Snapshot(object):
         self.srt_file = ""
         self.srt_subs = []
         self.width = 0
-        self.height = 0;
+        self.height = 0
+        self.duration = 0
+        self.fps = 0
 
     def __exit__(self, exc_type, exc_val, exc_tb):
         self.__initialise()
@@ -28,7 +30,7 @@ class Snapshot(object):
 
     def load_video(self, video_file):
         self.__initialise()
-        self.video_capture = cv2.VideoCapture(video_file)
+        self.video_capture = cv2.VideoCapture(filename=video_file)
         self.video_file = video_file
         srt_file = self.detect_srt(video_file)
         if srt_file:
@@ -37,6 +39,8 @@ class Snapshot(object):
         if self.video_capture.isOpened():
             self.width = self.video_capture.get(cv2.CAP_PROP_FRAME_WIDTH)
             self.height = self.video_capture.get(cv2.CAP_PROP_FRAME_HEIGHT)
+            self.fps = self.video_capture.get(cv2.CAP_PROP_FPS)
+            self.duration = self.video_capture.get(cv2.CAP_PROP_FRAME_COUNT) * 1000.0 / self.fps
 
         return self.video_capture.isOpened()
 
@@ -73,15 +77,9 @@ class Snapshot(object):
         :return: True for success
         :raise Exception for cv snapshot failure.
         """
-        fps = self.video_capture.get(cv2.CAP_PROP_FPS)
-        if fps == 0:
+        if position < 0 or position > self.duration:
             return False
-        duration = self.video_capture.get(cv2.CAP_PROP_FRAME_COUNT) * 1000.0 / fps
-        progress = position * 1.0 / duration
-        if progress < 0 or progress > 1.0:
-            return False
-        frame_pos = int(progress * self.video_capture.get(cv2.CAP_PROP_FRAME_COUNT))
-        self.video_capture.set(cv2.CAP_PROP_POS_FRAMES, frame_pos)
+        self.video_capture.set(cv2.CAP_PROP_POS_MSEC, position)
         success, image = self.video_capture.read()
         if success:
             try:
@@ -92,10 +90,10 @@ class Snapshot(object):
                 return result
             except:
                 traceback.print_exc()
-                raise Exception('Snapshot position %s (frame %s) failed %s' % (position, frame_pos, output_file))
+                raise Exception('Snapshot position %s failed %s' % (position, output_file))
 
         else:
-            raise Exception('Snapshot position %s (frame %s) failed %s' % (position, frame_pos, output_file))
+            raise Exception('Snapshot position %s failed %s' % (position, output_file))
 
     def snapshot_range(self, output_folder, start=0, end=None, callback_progress=None, callback_complete=None):
         """

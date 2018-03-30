@@ -45,7 +45,7 @@ class PlayerController(Controller):
 
     def on_open(self):
         file_name, _ = QFileDialog.getOpenFileName(self.view, "Open Video", QDir.homePath(),
-                                                   filter="*.mp4;*.avi;*.mpeg;*.mpg;*.mov")
+                                                   filter="*.mp4;*.avi;*.mpeg;*.mpg;*.mov;*.m4v;*.mtk")
         if file_name != '':
             if not self.snapshot.load_video(file_name):
                 QMessageBox.warning(self.view, 'Error', "Can't open this file.")
@@ -68,10 +68,8 @@ class PlayerController(Controller):
     def on_play(self):
         if self.model.isPlaying:
             self.view.mediaPlayer.pause()
-            self.view.playButton.setText("Play")
         else:
             self.view.mediaPlayer.play()
-            self.view.playButton.setText("Pause")
         self.model.isPlaying = not self.model.isPlaying
         self.view.videoWidget.show()
 
@@ -104,12 +102,14 @@ class PlayerController(Controller):
             # TODO: find a method to update view instead of these tricks
             self.view.videoWidget.hide()
             self.model.isPlaying = False
-            self.view.playButton.hide()
-            self.view.playButton.setText("Play")
+            self.view.update_control_text(self.view.playButton, "Play")
             self.view.mediaPositionSlider.hide()
             self.view.mediaPositionSlider.setValue(0)
             self.view.mediaPositionSlider.show()
-            self.view.playButton.show()
+        elif state == QMediaPlayer.PausedState:
+            self.view.update_control_text(self.view.playButton, "Play")
+        else:
+            self.view.update_control_text(self.view.playButton, "Pause")
 
     def on_video_resize(self, event):
         QtUtil.central(self.view.videoWidget, self.view.videoBackgroundWidget,
@@ -123,6 +123,7 @@ class PlayerController(Controller):
         self.view.progressLabel.setText(TimeUtil.format_ms(position))
 
     def on_duration_changed(self, duration):
+        print(duration)
         self.view.mediaPositionSlider.setRange(0, duration)
         self.model.end = duration
         self.view.endLabel.setText(TimeUtil.format_ms(duration))

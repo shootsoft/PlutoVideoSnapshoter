@@ -1,6 +1,6 @@
 sip
 pyqt5
-opencv-python=3.3.0.9
+opencv-python==3.3.0.9
 numpy
 Pillow
 chardet
@@ -9,3 +9,4 @@ chardet
 pyinstaller
 nose
 coverage
+python-coveralls
