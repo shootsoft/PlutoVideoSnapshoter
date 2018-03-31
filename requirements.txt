@@ -4,6 +4,7 @@ opencv-python==3.3.0.9 # Latest version may not work well with Mac
 numpy
 Pillow
 chardet
+qdarkstyle
 
 # Development
 pyinstaller

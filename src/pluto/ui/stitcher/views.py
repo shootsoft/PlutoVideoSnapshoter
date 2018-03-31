@@ -15,14 +15,20 @@ class ImageStitchingWindow(View):
         self.upImageLabel.setStyleSheet("QLabel { background-color : rgba(0,0,0,.8); opacity:0.3;}")
         self.downImageLabel.setGeometry(0, 0, 0, 0)
         self.downImageLabel.setStyleSheet("QLabel { background-color : rgba(0,0,0,.8); opacity:0.3;}")
+        self.zoomInButton.hide()
+        self.zoomOutButton.hide()
         self.__init_context_menu()
 
     def __init_context_menu(self):
         self.contextMenu = QMenu()
+        self.removeSelectedAction = QAction("Delete selected", self)
         self.previewSelectedAction = QAction("Preview selected", self)
         self.previewAllAction = QAction("Preview all", self)
         self.saveSelectedAction = QAction("Save selected", self)
         self.saveAllAction = QAction("Save all", self)
+
+        self.contextMenu.addAction(self.removeSelectedAction)
+        self.contextMenu.addSeparator()
         self.contextMenu.addAction(self.previewSelectedAction)
         self.contextMenu.addAction(self.previewAllAction)
         self.contextMenu.addAction(self.saveSelectedAction)

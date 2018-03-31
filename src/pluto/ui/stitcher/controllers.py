@@ -39,6 +39,7 @@ class ImageStitchingController(Controller):
         view.tabWidget.tabBarClicked.connect(self.on_tab_clicked)
         view.imageWidget.resizeEvent = self.on_item_preview_resize
         view.previewWidget.resizeEvent = self.on_output_preview_resize
+        view.removeSelectedAction.triggered.connect(self.on_remove_item)
         view.previewSelectedAction.triggered.connect(self.on_preview_selected)
         view.previewAllAction.triggered.connect(self.on_preview_all)
         view.saveSelectedAction.triggered.connect(self.on_save_selected)
@@ -68,6 +69,8 @@ class ImageStitchingController(Controller):
 
     def on_remove_item(self):
         items = self.view.imageListWidget.selectedItems()
+        if len(items) == 0:
+            return
         result = QMessageBox.question(self.view, 'Run Auto Snapshort', 'Remove selected [%s] items?' % len(items),
                                       QMessageBox.Yes, QMessageBox.No)
         if result == QMessageBox.Yes:

@@ -1,5 +1,6 @@
 #!/bin/sh
 
+rm -rf dist
 pyinstaller -D -w mac_build.spec
 
 # Multiple files, for debugging
