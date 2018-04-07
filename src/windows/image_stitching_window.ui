@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>948</width>
-    <height>475</height>
+    <width>850</width>
+    <height>500</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -355,7 +355,7 @@
            <bool>false</bool>
           </property>
           <property name="text">
-           <string>Auto Detect</string>
+           <string>Magic</string>
           </property>
          </widget>
         </item>

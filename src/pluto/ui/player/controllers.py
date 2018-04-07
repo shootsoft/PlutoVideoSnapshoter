@@ -89,13 +89,18 @@ class PlayerController(Controller):
             self.view.autoSnapshotButton.setEnabled(True)
 
     def on_stitch_snapshots(self):
+        if self.model.isPlaying:
+            self.on_play()
         self.go('image')
 
     def set_video(self, file_name, width, height):
         self.view.mediaPlayer.setMedia(QMediaContent(QUrl.fromLocalFile(file_name)))
         QtUtil.central(self.view.videoWidget, self.view.videoBackgroundWidget, width, height, 2, 2)
+        self.on_play()
 
     def on_media_state_changed(self, state):
+        # TODO: find a method to update view instead of these tricks
+        # After pause, the video will re-scale to original size, this is used to fix this.
         QtUtil.central(self.view.videoWidget, self.view.videoBackgroundWidget,
                        self.snapshot.width, self.snapshot.height, 2, 2)
         if state == 0:
