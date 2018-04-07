@@ -5,7 +5,7 @@ import traceback
 
 from PyQt5.QtCore import QDir, Qt
 from PyQt5.QtGui import QIcon
-from PyQt5.QtWidgets import (QFileDialog, QMessageBox)
+from PyQt5.QtWidgets import (QFileDialog, QMessageBox, QApplication)
 
 from pluto.common.media.TextDetector import TextDetector
 from pluto.common.utils import ImageUtil, TempFileUtil
@@ -39,6 +39,9 @@ class ImageStitchingController(Controller):
         view.tabWidget.tabBarClicked.connect(self.on_tab_clicked)
         view.imageWidget.resizeEvent = self.on_item_preview_resize
         view.previewWidget.resizeEvent = self.on_output_preview_resize
+        view.addAction.triggered.connect(self.on_add_item)
+        view.autoDetectSelectedAction.triggered.connect(self.on_auto_detect)
+        view.removeSelectedAction.triggered.connect(self.on_remove_item)
         view.previewSelectedAction.triggered.connect(self.on_preview_selected)
         view.previewAllAction.triggered.connect(self.on_preview_all)
         view.saveSelectedAction.triggered.connect(self.on_save_selected)
@@ -68,6 +71,8 @@ class ImageStitchingController(Controller):
 
     def on_remove_item(self):
         items = self.view.imageListWidget.selectedItems()
+        if len(items) == 0:
+            return
         result = QMessageBox.question(self.view, 'Run Auto Snapshort', 'Remove selected [%s] items?' % len(items),
                                       QMessageBox.Yes, QMessageBox.No)
         if result == QMessageBox.Yes:
@@ -115,10 +120,6 @@ class ImageStitchingController(Controller):
             item = items[0]
             image = item.get_storage()
             self.current_image = image
-            self.view.upVerticalSlider.setRange(0, image.height)
-            self.view.downVerticalSlider.setRange(0, image.height)
-            self.view.upVerticalSlider.setValue(image.up)
-            self.view.downVerticalSlider.setValue(image.height - image.down)
 
             self.render_preview()
             self.view.imageLabel.show()
@@ -136,6 +137,10 @@ class ImageStitchingController(Controller):
         QtUtil.preview_image(image.image_file, self.view.imageLabel, self.view.imageWidget)
         self.set_image_up_shade(image)
         self.set_image_down_shade(image)
+        self.view.upVerticalSlider.setRange(0, image.height)
+        self.view.downVerticalSlider.setRange(0, image.height)
+        self.view.upVerticalSlider.setValue(image.up)
+        self.view.downVerticalSlider.setValue(image.height - image.down)
 
     def set_image_up_shade(self, image):
         height = int(self.view.imageLabel.height() * (image.up * 1.0 / image.height))
@@ -273,6 +278,7 @@ class ImageStitchingController(Controller):
         if reply == QMessageBox.Yes:
             self.view.setEnabled(False)
             self.do_auto_detect(items, skip_first)
+            QApplication.processEvents()
             self.view.setEnabled(True)
 
     def do_auto_detect(self, items, skip_first=False):
@@ -282,3 +288,5 @@ class ImageStitchingController(Controller):
             img.up, img.down = self.text_detector.detect_subtitle_range(img.image_file)
             # items[i].setData(0, str(img))
             items[i].refresh_ui()
+        self.render_preview()
+        self.view.statusBar().showMessage("Please preview final image.")
