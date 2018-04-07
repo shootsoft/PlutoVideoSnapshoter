@@ -16,7 +16,7 @@ Pluto Video Snapshoter
 - Select output path (optional, if the output is different from video file's folder)
 - Select time range (optional, default time range is 0:0:0 ~ video's duration time)
 - Run task
-- Concat snapshots
+- Stitch snapshots
 
 ![Snapshot UI](doc/images/snapshot_ui.png)
 
@@ -56,7 +56,11 @@ python src/app.py
 Building (not fully working yet)
 
 ```
-python build.py
+# Windows
+build_win.bat
+
+# macOS
+./build_mac.sh
 ```
 
 ## Windows
@@ -67,5 +71,5 @@ Extra media codec required, recommend [K-Lite Codec Pack](http://www.codecguide.
 ## Tests
 
 ```bash
-nosetests
+nosetests --with-coverage --cover-package=pluto
 ```
