@@ -2,6 +2,7 @@
 
 rm -rf dist
 pyinstaller -D -w mac_build.spec
+dmgbuild -s dmg_settings.py "PlutoVideoSnapshoter Volume" PlutoVideoSnapshoter.dmg
 
 # Multiple files, for debugging
 

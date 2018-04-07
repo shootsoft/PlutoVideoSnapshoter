@@ -11,3 +11,5 @@ pyinstaller
 nose
 coverage
 python-coveralls
+biplist
+dmgbuild
