@@ -52,6 +52,9 @@
        <property name="spacing">
         <number>0</number>
        </property>
+       <property name="leftMargin">
+        <number>12</number>
+       </property>
        <property name="topMargin">
         <number>0</number>
        </property>
@@ -323,15 +326,21 @@
          </item>
          <item>
           <widget class="QLabel" name="startLabel">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
            <property name="minimumSize">
             <size>
-             <width>90</width>
+             <width>0</width>
              <height>0</height>
             </size>
            </property>
            <property name="maximumSize">
             <size>
-             <width>90</width>
+             <width>100</width>
              <height>16777215</height>
             </size>
            </property>
@@ -339,6 +348,22 @@
             <string>00:00:00</string>
            </property>
           </widget>
+         </item>
+         <item>
+          <spacer name="horizontalSpacer_8">
+           <property name="orientation">
+            <enum>Qt::Horizontal</enum>
+           </property>
+           <property name="sizeType">
+            <enum>QSizePolicy::Fixed</enum>
+           </property>
+           <property name="sizeHint" stdset="0">
+            <size>
+             <width>10</width>
+             <height>20</height>
+            </size>
+           </property>
+          </spacer>
          </item>
          <item>
           <widget class="QPushButton" name="endButton">
@@ -380,15 +405,21 @@
          </item>
          <item>
           <widget class="QLabel" name="endLabel">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
            <property name="minimumSize">
             <size>
-             <width>90</width>
+             <width>0</width>
              <height>0</height>
             </size>
            </property>
            <property name="maximumSize">
             <size>
-             <width>90</width>
+             <width>100</width>
              <height>16777215</height>
             </size>
            </property>
@@ -396,6 +427,22 @@
             <string>00:00:00</string>
            </property>
           </widget>
+         </item>
+         <item>
+          <spacer name="horizontalSpacer_7">
+           <property name="orientation">
+            <enum>Qt::Horizontal</enum>
+           </property>
+           <property name="sizeType">
+            <enum>QSizePolicy::Fixed</enum>
+           </property>
+           <property name="sizeHint" stdset="0">
+            <size>
+             <width>10</width>
+             <height>20</height>
+            </size>
+           </property>
+          </spacer>
          </item>
          <item>
           <widget class="QPushButton" name="autoSnapshotButton">

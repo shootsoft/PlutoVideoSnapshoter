@@ -5,6 +5,7 @@ import traceback
 
 from PyQt5.QtCore import QDir, Qt
 from PyQt5.QtGui import QIcon
+from PyQt5.QtMultimedia import QSound
 from PyQt5.QtWidgets import (QFileDialog, QMessageBox, QApplication)
 
 from pluto.common.media.TextDetector import TextDetector
@@ -25,6 +26,7 @@ class ImageStitchingController(Controller):
         self.router.subscribe('snapshot', self)
         self.files = []
         self.text_detector = TextDetector()
+        self.magicSound = QSound(QtUtil.resource_path(os.path.join("windows", "stitching", "magic.wav")))
         self.__bind(self.view)
 
     def __bind(self, view):
@@ -279,6 +281,7 @@ class ImageStitchingController(Controller):
             self.view.setEnabled(False)
             self.do_auto_detect(items, skip_first)
             QApplication.processEvents()
+            self.magicSound.play()
             self.view.setEnabled(True)
 
     def do_auto_detect(self, items, skip_first=False):
