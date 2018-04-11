@@ -361,8 +361,20 @@
         </item>
         <item>
          <widget class="QPushButton" name="addButton">
+          <property name="minimumSize">
+           <size>
+            <width>32</width>
+            <height>0</height>
+           </size>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>32</width>
+            <height>16777215</height>
+           </size>
+          </property>
           <property name="text">
-           <string>Add Images</string>
+           <string extracomment="Add Images"/>
           </property>
          </widget>
         </item>
@@ -371,8 +383,20 @@
           <property name="enabled">
            <bool>false</bool>
           </property>
+          <property name="minimumSize">
+           <size>
+            <width>32</width>
+            <height>0</height>
+           </size>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>32</width>
+            <height>16777215</height>
+           </size>
+          </property>
           <property name="text">
-           <string>Remove Images</string>
+           <string extracomment="Remove Images"/>
           </property>
          </widget>
         </item>
@@ -413,7 +437,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>948</width>
+     <width>850</width>
      <height>22</height>
     </rect>
    </property>

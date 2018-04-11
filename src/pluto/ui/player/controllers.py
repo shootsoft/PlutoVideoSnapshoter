@@ -68,8 +68,10 @@ class PlayerController(Controller):
     def on_play(self):
         if self.model.isPlaying:
             self.view.mediaPlayer.pause()
+            self.view.update_icon(self.view.playButton, "play")
         else:
             self.view.mediaPlayer.play()
+            self.view.update_icon(self.view.playButton, "pause")
         self.model.isPlaying = not self.model.isPlaying
         self.view.videoWidget.show()
 
@@ -107,14 +109,14 @@ class PlayerController(Controller):
             # TODO: find a method to update view instead of these tricks
             self.view.videoWidget.hide()
             self.model.isPlaying = False
-            self.view.update_control_text(self.view.playButton, "Play")
+            self.view.update_icon(self.view.playButton, "play")
             self.view.mediaPositionSlider.hide()
             self.view.mediaPositionSlider.setValue(0)
             self.view.mediaPositionSlider.show()
         elif state == QMediaPlayer.PausedState:
-            self.view.update_control_text(self.view.playButton, "Play")
+            self.view.update_icon(self.view.playButton, "play")
         else:
-            self.view.update_control_text(self.view.playButton, "Pause")
+            self.view.update_icon(self.view.playButton, "pause")
 
     def on_video_resize(self, event):
         QtUtil.central(self.view.videoWidget, self.view.videoBackgroundWidget,

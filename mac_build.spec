@@ -36,6 +36,8 @@ app = BUNDLE(coll,
              icon='res/pluto.icns',
              bundle_identifier=None,
              info_plist={
-                'CFBundleShortVersionString': '1.4.3'
+                'CFBundleShortVersionString': '1.4.3',
+                'NSPrincipalClass': 'NSApplication',
+                'NSHighResolutionCapable': 'True'
             },
          )

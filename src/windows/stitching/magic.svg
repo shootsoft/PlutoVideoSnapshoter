@@ -1,0 +1,7 @@
+<?xml version="1.0" ?><svg clip-rule="evenodd" fill-rule="evenodd" image-rendering="optimizeQuality" shape-rendering="geometricPrecision" text-rendering="geometricPrecision" viewBox="0 0 500 500" xmlns="http://www.w3.org/2000/svg"><defs><style type="text/css"><![CDATA[
+    .str1 {stroke:#434242;stroke-width:10;stroke-linejoin:round}
+    .str0 {stroke:#434242;stroke-width:20;stroke-linejoin:round}
+    .fil2 {fill:none}
+    .fil0 {fill:#FFFFFF}
+    .fil1 {fill:url(#id0)}
+   ]]></style><linearGradient gradientUnits="userSpaceOnUse" id="id0" x1="409.997" x2="90.003" y1="190.001" y2="190.001"><stop offset="0" stop-color="#008BFF"/><stop offset="1" stop-color="#0af"/></linearGradient></defs><g id="Layer_x0020_1"><path class="fil0 str0" d="M320 203v248c0 5-5 5-10 0l-55-55c-5-5-5-5-10 0l-55 55c-5 5-10 5-10 0v-248h140z"/><polygon class="fil1 str1" points="137,77 163,77 170,51 195,58 209,35 231,49 250,30 269,49 291,35 305,58 330,51 337,77 363,77 363,103 389,110 382,135 405,149 391,171 410,190 391,209 405,231 382,245 389,270 363,277 363,303 337,303 330,329 305,322 291,345 269,331 250,350 231,331 209,345 195,322 170,329 163,303 137,303 137,277 111,270 118,245 95,231 109,209 90,190 109,171 95,149 118,135 111,110 137,103"/><circle class="fil2 str1" cx="250" cy="190" r="97"/></g></svg>
