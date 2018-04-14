@@ -20,11 +20,9 @@ Pluto Video Snapshoter
 
 ![Snapshot UI](doc/images/snapshot_ui.png)
 
-![Snapshot UI](doc/images/snapshot_ui_stitching.png)
-
 ![Snapshot UI](doc/images/auto_detection/subtitle_auto_detection.png)
 
-![Snapshot UI](doc/images/auto_detection/preview.png)
+![Snapshot UI](doc/images/snapshot_ui_stitching_preview.png)
 
 See [User Maual](doc/user_manual.md)
 
