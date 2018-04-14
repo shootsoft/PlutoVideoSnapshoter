@@ -25,6 +25,7 @@ class PlayerWindow(View):
         self.statusbar.addWidget(self.progressLabel)
         self.messageLabel = QLabel("")
         self.statusbar.addWidget(self.messageLabel)
+        self.mediaPositionSlider.setEnabled(False)
         self.mediaPositionSlider.setStyleSheet("""
         QSlider::handle:horizontal {
             background: qlineargradient(x1:0, y1:0, x2:1, y2:1, stop:0 #b4b4b4, stop:1 #8f8f8f);

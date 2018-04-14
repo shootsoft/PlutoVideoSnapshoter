@@ -30,3 +30,11 @@ class ImageModel(object):
 
     def __str__(self):
         return "up:%s down:%s %s" % (self.up, self.down, self.name)
+
+
+class ViewModel(object):
+
+    def __init__(self):
+        self.preview = False
+        self.items_count = 0
+        self.select_items_count = 0

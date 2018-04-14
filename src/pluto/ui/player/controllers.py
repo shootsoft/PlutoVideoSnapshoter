@@ -29,6 +29,7 @@ class PlayerController(Controller):
         view.playButton.clicked.connect(self.on_play)
         view.snapshotButton.clicked.connect(self.on_snapshot)
         view.videoBackgroundWidget.mouseReleaseEvent = self.on_video_clicked
+        view.videoWidget.mouseReleaseEvent = self.on_video_clicked
 
         view.outputButton.clicked.connect(self.on_set_output)
         view.subtitleSelectButton.clicked.connect(self.on_set_subtitle)
@@ -74,6 +75,7 @@ class PlayerController(Controller):
             self.on_open()
 
     def on_play(self, ):
+        self.view.mediaPositionSlider.setEnabled(True)
         if self.model.isPlaying:
             self.view.mediaPlayer.pause()
             self.view.update_icon(self.view.playButton, "play")

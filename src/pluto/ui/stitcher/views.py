@@ -4,6 +4,7 @@ from PyQt5.QtCore import QSize
 from PyQt5.QtWidgets import (QAction, QMenu)
 
 from pluto.ui.qt.mvc.views import View
+from pluto.ui.stitcher.models import ViewModel
 
 
 class ImageStitchingWindow(View):
@@ -27,6 +28,8 @@ class ImageStitchingWindow(View):
         self.update_icon(self.removeButton, "remove")
         self.update_icon(self.saveButton, "save")
         self.__init_context_menu()
+        self.model = ViewModel()
+        self.update_view()
 
         self.upVerticalSlider.setStyleSheet("""
             QSlider::handle:vertical {
@@ -87,3 +90,29 @@ class ImageStitchingWindow(View):
         self.add_icon("remove.svg", folder)
         self.add_icon("magic.svg", folder)
         self.add_icon("save.svg", folder)
+
+    def update_view(self):
+        self.model.items_count = self.imageListWidget.count()
+        self.model.select_items_count = len(self.imageListWidget.selectedItems())
+
+        status = self.model.items_count > 0
+        self.autoDetectSelectedAction.setEnabled(status)
+        self.autoDetectButton.setEnabled(status)
+        self.saveButton.setEnabled(status)
+        self.saveAllAction.setEnabled(status)
+        self.previewAllAction.setEnabled(status)
+
+        select_status = self.model.select_items_count > 0
+        self.removeButton.setEnabled(select_status)
+        self.removeSelectedAction.setEnabled(select_status)
+        self.saveSelectedAction.setEnabled(select_status)
+        self.previewSelectedAction.setEnabled(select_status)
+
+        if self.model.preview:
+            self.addButton.hide()
+            self.removeButton.hide()
+            self.autoDetectButton.hide()
+        else:
+            self.addButton.show()
+            self.removeButton.show()
+            self.autoDetectButton.show()

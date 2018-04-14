@@ -83,9 +83,7 @@ class ImageStitchingController(Controller):
                 self.view.imageListWidget.takeItem(index.row())
             self.view.imageListWidget.repaint()
             self.view.statusBar().showMessage('Removed %s images.' % len(items))
-            if self.view.imageListWidget.count() == 0:
-                self.view.saveButton.setEnabled(False)
-                self.view.autoDetectButton.setEnabled(False)
+            self.view.update_view()
 
     def add_image(self, image_file):
         try:
@@ -99,9 +97,7 @@ class ImageStitchingController(Controller):
             item.setData(Qt.StatusTipRole, image_file)
             item.set_storage(image)
             self.view.imageListWidget.addItem(item)
-            if not self.view.saveButton.isEnabled():
-                self.view.saveButton.setEnabled(True)
-                self.view.autoDetectButton.setEnabled(True)
+            self.view.update_view()
         except:
             traceback.print_exc()
 
@@ -115,7 +111,6 @@ class ImageStitchingController(Controller):
             self.view.imageLabel.hide()
             self.view.upImageLabel.hide()
             self.view.downImageLabel.hide()
-            self.view.removeButton.setEnabled(False)
             self.current_image = None
             self.view.statusBar().showMessage('')
         else:
@@ -127,10 +122,10 @@ class ImageStitchingController(Controller):
             self.view.imageLabel.show()
             self.view.upImageLabel.show()
             self.view.downImageLabel.show()
-            self.view.removeButton.setEnabled(True)
             self.view.upVerticalSlider.setEnabled(True)
             self.view.downVerticalSlider.setEnabled(True)
             self.view.statusBar().showMessage("%s images selected." % len(items))
+        self.view.update_view()
 
     def render_preview(self):
         image = self.current_image
@@ -168,7 +163,6 @@ class ImageStitchingController(Controller):
                 if not updated:
                     updated = True
                     self.set_image_up_shade(image)
-
             else:
                 self.view.upVerticalSlider.setValue(image.up)
                 break
@@ -218,14 +212,11 @@ class ImageStitchingController(Controller):
             self.set_image_down_shade(self.current_image)
 
     def on_tab_clicked(self, index):
-        is_preview = index == 1
-        self.view.statusBar().showMessage("Preview image." if is_preview else '')
-        if is_preview:
+        self.view.model.preview = index == 1
+        self.view.statusBar().showMessage("Preview image." if self.view.model.preview else '')
+        if self.view.model.preview:
             self.render_stitching_preview()
-        else:
-            self.view.addButton.show()
-            self.view.removeButton.show()
-            self.view.autoDetectButton.show()
+        self.view.update_view()
 
     def render_stitching_preview(self):
         images = self.get_images(self.preview_mode)
@@ -237,9 +228,6 @@ class ImageStitchingController(Controller):
         else:
             self.preview_image_file = None
             self.view.previewLabel.clear()
-        self.view.addButton.hide()
-        self.view.removeButton.hide()
-        self.view.autoDetectButton.hide()
 
     def on_output_preview_resize(self, event):
         if self.preview_image_file is not None:
@@ -293,3 +281,4 @@ class ImageStitchingController(Controller):
             items[i].refresh_ui()
         self.render_preview()
         self.view.statusBar().showMessage("Please preview final image.")
+
