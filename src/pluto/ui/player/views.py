@@ -1,17 +1,11 @@
 # -*- coding: utf-8 -*-
 import os
-from PyQt5 import Qt
-from PyQt5.QtGui import QIcon
 
 from PyQt5.QtMultimedia import QMediaPlayer
 from PyQt5.QtMultimediaWidgets import QVideoWidget
-from PyQt5.QtWidgets import QLabel, QVBoxLayout, QWidget, QPushButton
+from PyQt5.QtWidgets import QLabel
 
 from pluto.ui.qt.mvc.views import View
-
-import icons
-
-from pluto.ui.qt.qtutils import QtUtil
 
 
 class PlayerWindow(View):

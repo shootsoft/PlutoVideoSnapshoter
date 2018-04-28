@@ -1,8 +1,8 @@
 视频截图字幕拼接精灵
 
 - 开发商：射日工作室 https://shootsoft.net
-- 主页：https://github.com/shootsoft/PlutoVideoSnapshoter
-- 下载：https://github.com/shootsoft/PlutoVideoSnapshoter/releases
+- 主页：https://shootsoft.gitee.io/pluto/
+- 下载：https://gitee.com/shootsoft/PlutoVideoSnapshoter/releases
 
 本软件运行需要系统安装相应的视频解码类库，推荐 K-Lite Codec Pack http://www.codecguide.com/download_kl.htm
 
@@ -14,3 +14,5 @@
 - 自动检测字幕区域
 - 允许单张批量图片手动调整字幕区域
 - 截图拼接一气呵成
+
+视频截图字幕拼接精灵是一款能够在多个平台下使用的视频截图软件，本软件同时集成了依据字幕自动截图，图片字幕区域自动识别功能。能够将多张带有字幕的截图拼接成一张完整图片。

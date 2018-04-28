@@ -103,3 +103,4 @@ ENV/
 
 .idea/
 /*.dmg
+/*.pfx

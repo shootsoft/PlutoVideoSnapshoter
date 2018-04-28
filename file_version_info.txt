@@ -31,7 +31,7 @@ VSVersionInfo(
         u'040904e4',
         [StringStruct(u'CompanyName', u'Shoot Sun Studio'),
         StringStruct(u'FileDescription', u'Pluto Video Snapshoter'),
-        StringStruct(u'FileVersion', u'1.4.4),
+        StringStruct(u'FileVersion', u'1.4.4'),
         StringStruct(u'InternalName', u'https://github.com/shootsoft/PlutoVidoeSnapshoter'),
         StringStruct(u'LegalCopyright', u'Copyright (C) 2000-2018 Shoot Sun Studio All Rights Reserved'),
         StringStruct(u'OriginalFilename', u'PlutoVideoSnapshoter.exe'),
