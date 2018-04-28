@@ -4,7 +4,7 @@ import os
 import traceback
 
 from PyQt5.QtCore import QUrl, QDir
-from PyQt5.QtMultimedia import QMediaContent, QMediaPlayer
+from PyQt5.QtMultimedia import QMediaContent, QMediaPlayer, QSound
 from PyQt5.QtWidgets import QFileDialog, QMessageBox, QApplication
 
 from pluto.common.utils import TimeUtil
@@ -21,12 +21,15 @@ class PlayerController(Controller):
         super(PlayerController, self).__init__(router, PlayerWindow())
         self.model = SnapshotModel()
         self.snapshot = Snapshot()
+        self.snapshotSound = QSound(QtUtil.resource_path(os.path.join("windows", "player", "snapshot.wav")))
         self.__bind(self.view)
 
     def __bind(self, view):
         view.openButton.clicked.connect(self.on_open)
         view.playButton.clicked.connect(self.on_play)
         view.snapshotButton.clicked.connect(self.on_snapshot)
+        view.videoBackgroundWidget.mouseReleaseEvent = self.on_video_clicked
+        view.videoWidget.mouseReleaseEvent = self.on_video_clicked
 
         view.outputButton.clicked.connect(self.on_set_output)
         view.subtitleSelectButton.clicked.connect(self.on_set_subtitle)
@@ -65,11 +68,20 @@ class PlayerController(Controller):
                 self.view.autoSnapshotButton.setEnabled(True)
             self.set_video(file_name, self.snapshot.width, self.snapshot.height)
 
-    def on_play(self):
+    def on_video_clicked(self, *event):
+        if self.model.filename:
+            self.on_play()
+        else:
+            self.on_open()
+
+    def on_play(self, ):
+        self.view.mediaPositionSlider.setEnabled(True)
         if self.model.isPlaying:
             self.view.mediaPlayer.pause()
+            self.view.update_icon(self.view.playButton, "play")
         else:
             self.view.mediaPlayer.play()
+            self.view.update_icon(self.view.playButton, "pause")
         self.model.isPlaying = not self.model.isPlaying
         self.view.videoWidget.show()
 
@@ -107,14 +119,14 @@ class PlayerController(Controller):
             # TODO: find a method to update view instead of these tricks
             self.view.videoWidget.hide()
             self.model.isPlaying = False
-            self.view.update_control_text(self.view.playButton, "Play")
+            self.view.update_icon(self.view.playButton, "play")
             self.view.mediaPositionSlider.hide()
             self.view.mediaPositionSlider.setValue(0)
             self.view.mediaPositionSlider.show()
         elif state == QMediaPlayer.PausedState:
-            self.view.update_control_text(self.view.playButton, "Play")
+            self.view.update_icon(self.view.playButton, "play")
         else:
-            self.view.update_control_text(self.view.playButton, "Pause")
+            self.view.update_icon(self.view.playButton, "pause")
 
     def on_video_resize(self, event):
         QtUtil.central(self.view.videoWidget, self.view.videoBackgroundWidget,
@@ -149,10 +161,12 @@ class PlayerController(Controller):
 
     def on_snapshot(self):
         position = self.view.mediaPlayer.position()
-        output_file = os.path.join(self.model.output, self.model.file + "_%d.jpg" % position)
+        output_file = os.path.join(self.model.output, self.model.file + "_manual_%s.jpg" %
+                                   TimeUtil.format_ms(position).replace(":", "_"))
         # print(output_file)
         try:
             if self.snapshot.snapshot(position, output_file):
+                self.snapshotSound.play()
                 self.router.notify('snapshot', output_file)
                 self.view.messageLabel.setText("Saved " + output_file)
         except:

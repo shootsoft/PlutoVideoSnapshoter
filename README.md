@@ -20,13 +20,11 @@ Pluto Video Snapshoter
 
 ![Snapshot UI](doc/images/snapshot_ui.png)
 
-![Snapshot UI](doc/images/snapshot_ui_stitching.png)
-
 ![Snapshot UI](doc/images/auto_detection/subtitle_auto_detection.png)
 
-![Snapshot UI](doc/images/auto_detection/preview.png)
+![Snapshot UI](doc/images/snapshot_ui_stitching_preview.png)
 
-See [User Maual](doc/user_manual.md)
+See [User Maual](doc/user_manual.md)  [中文用户手册](https://gitee.com/shootsoft/PlutoVideoSnapshoter/blob/master/doc/user_manual_cn.md)
 
 # Development
 

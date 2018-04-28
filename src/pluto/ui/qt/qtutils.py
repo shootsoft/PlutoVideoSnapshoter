@@ -3,6 +3,8 @@
 import os
 
 import sys
+from PyQt5 import QtGui
+
 from PyQt5.QtGui import QPixmap
 
 from pluto.common.utils import SizeUtil
@@ -35,3 +37,7 @@ class QtUtil(object):
             base_path = os.path.abspath(".")
 
         return os.path.join(base_path, relative_path)
+
+    @staticmethod
+    def icon(icon, folder="windows"):
+        return QtGui.QIcon(QtUtil.resource_path(os.path.join(folder, icon)))

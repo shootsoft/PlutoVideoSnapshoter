@@ -1,0 +1,4 @@
+<?xml version="1.0" ?><svg clip-rule="evenodd" fill-rule="evenodd" image-rendering="optimizeQuality" shape-rendering="geometricPrecision" text-rendering="geometricPrecision" viewBox="0 0 500 500" xmlns="http://www.w3.org/2000/svg"><defs><style type="text/css"><![CDATA[
+    .str0 {stroke:#434242;stroke-width:10;stroke-linejoin:round}
+    .fil0 {fill:url(#id0)}
+   ]]></style><linearGradient gradientUnits="userSpaceOnUse" id="id0" x1="449.998" x2="50" y1="249.999" y2="249.999"><stop offset="0" stop-color="#008BFF"/><stop offset="1" stop-color="#0af"/></linearGradient></defs><path class="fil0 str0" d="M440 190h-130v-130c0-5-4-10-10-10h-100c-6 0-10 5-10 10v130h-130c-5 0-10 4-10 10v100c0 6 5 10 10 10h130v130c0 5 4 10 10 10h100c6 0 10-5 10-10v-130h130c5 0 10-4 10-10v-100c0-6-5-10-10-10z" id="Layer_x0020_1"/></svg>
