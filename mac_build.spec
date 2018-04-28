@@ -34,8 +34,9 @@ coll = COLLECT(exe,
 app = BUNDLE(coll,
              name='PlutoVideoSnapshoter.app',
              icon='res/pluto.icns',
-             bundle_identifier=None,
+             bundle_identifier= 'net.shootsoft.pluto',
              info_plist={
+                'CFBundleName': 'PlutoVideoSnapshoter',
                 'CFBundleShortVersionString': '1.4.4',
                 'NSPrincipalClass': 'NSApplication',
                 'NSHighResolutionCapable': 'True'
